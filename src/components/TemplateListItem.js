@@ -4,18 +4,16 @@ import { Col } from "react-bootstrap"
 export default class TemplateListItem extends Component {
   localAddToCanvas = e => {
     e.preventDefault()
-    this.props.addToCanvas(
-      e.target,
-      this.props.property_type,
-      this.props.zIndex
-    )
+    const zIndex =
+      this.props.property_type === "items" ? this.props.zIndex : null
+    this.props.addToCanvas(e.target, this.props.property_type, zIndex)
   }
 
   render() {
     return (
       <Col
-        xs={6}
-        md={4}
+        xs={this.props.xs}
+        md={this.props.md}
         style={{
           marginBottom: `15px`,
         }}

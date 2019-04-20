@@ -4,30 +4,18 @@
 }
 
 body {
-  font-family: "Raleway", sans-serif;
-  color: #4c4c4c;
-  background: #360033; /* fallback for old browsers */
-  background: -webkit-linear-gradient(
-    to bottom,
-    #0b8793,
-    #360033
-  ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-    to bottom,
-    #0b8793,
-    #360033
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  font-family: "Quick", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3",
+    "Hiragino Kaku Gothic ProN", "游ゴシック", YuGothic, "メイリオ", Meiryo,
+    sans-serif;
+  color: #333;
+  background: #fff; /* fallback for old browsers */
 }
 
 .App {
   width: 100%;
   max-width: 960px;
-  margin: 2.5em auto;
-  border-radius: 0.35em;
-  background: #fcfcfc;
+  margin: 0 auto;
   overflow: hidden;
-  -webkit-box-shadow: 10px 10px 26px rgba(0, 0, 0, 0.13);
-  box-shadow: 0 0 26px rgba(0, 0, 0, 0.13);
 }
 
 .jumbotron {
@@ -68,7 +56,7 @@ p {
   background: url("../images/bg-canvas.png");
   background-repeat: repeat;
   border: 1px solid #ececec;
-  margin: 10px auto;
+  margin: 0px auto;
   display: block;
 }
 

@@ -12,6 +12,8 @@ export default class TemplateList extends Component {
         zIndex={this.props.zIndex}
         addToCanvas={this.props.addtocanvas}
         key={item}
+        xs={this.props.xs}
+        md={this.props.md}
       />
     ))
 
