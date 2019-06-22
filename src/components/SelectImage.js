@@ -3,12 +3,18 @@ import { Form } from "react-bootstrap"
 
 export default class SelectImage extends Component {
   localAddToCanvas = e => {
-    // e.preventDefault()
-    this.loadImage(e.target.value)
+    const index = e.target.selectedIndex,
+      value = e.target.value,
+      label = e.target.options[index].text
+    this.loadImage(value)
       .then(res => {
-        const zIndex =
-          this.props.property_type === "items" ? this.props.zIndex : null
-        this.props.addToCanvas(res, this.props.property_type, zIndex)
+        const type =
+            this.props.property_type === "bases"
+              ? this.props.property_type
+              : label,
+          zIndex =
+            this.props.property_type === "bases" ? this.props.zIndex : null
+        this.props.addToCanvas(res, type, zIndex)
       })
       .catch(e => {
         console.error("onload error", e)
@@ -25,19 +31,15 @@ export default class SelectImage extends Component {
   }
 
   render() {
-    const results = this.props.data
-
-    let options = results.map(item => (
-      <option key={item.name} value={item.path}>
-        {item.name}
-      </option>
-    ))
-
     return (
       <Form.Group controlId={this.props.controlId}>
         <Form.Label>{this.props.label}</Form.Label>
-        <Form.Control as="select" onChange={this.localAddToCanvas}>
-          {options}
+        <Form.Control
+          as="select"
+          onChange={this.localAddToCanvas}
+          disabled={this.props.disabled}
+        >
+          {this.props.options}
         </Form.Control>
       </Form.Group>
     )
