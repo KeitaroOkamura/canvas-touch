@@ -86,6 +86,8 @@ class FabricCanvas extends Component {
     })
 
     this.the_canvas.remove(to_remove)
+    // Trigger Event
+    this.setOption()
     // Add Image Flg Changed
     this.setState({ add: true })
     // Back Button Status Changed
@@ -94,6 +96,8 @@ class FabricCanvas extends Component {
 
   resetCanvas = () => {
     this.the_canvas.clear()
+    // Trigger Event
+    this.setOption()
   }
 
   onMouseUp = options => {
@@ -124,7 +128,7 @@ class FabricCanvas extends Component {
       index
     ).lockScalingY = true
     // Trigger Event
-    this.setOption()
+    this.setOption(true)
     // Add Image Flg Changed
     this.setState({ add: true })
     // Back Button Status Changed
@@ -150,7 +154,7 @@ class FabricCanvas extends Component {
     this.setState({ trim: e.target.checked })
   }
 
-  setOption = () => {
+  setOption = (changed = false) => {
     const disableList = []
     let result = []
     for (let key in marklist) {
@@ -164,7 +168,9 @@ class FabricCanvas extends Component {
     this.props
       .createMarkOptions(marklist, disableList)
       .then(res => {
-        this.resetMarkSelect(disableList)
+        if (changed) {
+          this.resetMarkSelect(disableList)
+        }
       })
       .catch(e => {
         console.error("create mark option error", e)
