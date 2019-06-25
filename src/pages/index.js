@@ -18,6 +18,10 @@ class IndexPage extends Component {
       baseOptions: [],
       markOptions: [],
       isDisabled: false,
+      size: {
+        width: 600,
+        height: 380,
+      },
     }
   }
 
@@ -36,8 +40,8 @@ class IndexPage extends Component {
   }
 
   addToCanvas = (imgElement, property_type, z_Index) => {
-    const width = property_type === "bases" ? 400 : 48,
-      height = property_type === "bases" ? 400 : 48
+    const width = property_type === "bases" ? 600 : 48,
+      height = property_type === "bases" ? 380 : 48
     const imgInstance = new fabric.Image(imgElement, {
       width: width,
       height: height,
@@ -88,12 +92,16 @@ class IndexPage extends Component {
     }
   }
 
+  setSize(size) {
+    this.setState({ size: size })
+  }
+
   render() {
     return (
       <Layout>
         <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
         <div className="row">
-          <Col md={6}>
+          <Col md={4}>
             <SelectImage
               options={this.state.baseOptions}
               property_type="bases"
@@ -101,6 +109,7 @@ class IndexPage extends Component {
               label="ベース選択"
               zIndex={-9999}
               addToCanvas={this.addToCanvas}
+              setSize={this.setSize.bind(this)}
               disabled={false}
               xs={6}
               md={4}
@@ -113,17 +122,19 @@ class IndexPage extends Component {
               zIndex={0}
               addToCanvas={this.addToCanvas}
               disabled={this.state.isDisabled}
+              setSize={this.setSize.bind(this)}
               xs={6}
               md={4}
             />
           </Col>
 
-          <Col md={6}>
+          <Col md={8}>
             <FabricCanvas
               activeProperty={this.state.activeProperty}
               createMarkOptions={this.createMarkOptions.bind(this)}
               available={this.state.isDisabled}
               triggerEvent={this.triggerEvent}
+              size={this.state.size}
             />
           </Col>
         </div>

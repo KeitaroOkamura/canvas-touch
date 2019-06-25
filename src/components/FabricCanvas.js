@@ -19,8 +19,8 @@ class FabricCanvas extends Component {
     this.the_canvas = new fabric.Canvas("main-canvas", {
       selection: true,
       preserveObjectStacking: false,
-      height: 400,
-      width: 400,
+      height: 380,
+      width: 600,
     })
 
     // Canvas Event Handler
@@ -62,6 +62,9 @@ class FabricCanvas extends Component {
 
   saveToCanvas = () => {
     const link = document.createElement("a")
+    // TODO: resize
+    // this.the_canvas.width = this.props.size.width
+    // this.the_canvas.height = this.props.size.height
     let dataUrl = this.the_canvas.toDataURL("image/jpeg")
     if (this.state.trim) {
       const base64 = this.the_canvas.toDataURL("image/jpeg", 0.1),
