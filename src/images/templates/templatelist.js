@@ -13,12 +13,14 @@ const marklist = [
 
 // Bases
 const baselist = [
-  { name: "ベース1", path: require("./bases/1.png") },
-  { name: "ベース2", path: require("./bases/2.png") },
-  { name: "ベース3", path: require("./bases/3.png") },
-  { name: "ベース4", path: require("./bases/4.png") },
-  { name: "ベース5", path: require("./bases/5.png") },
-  { name: "ベース6", path: require("./bases/6.png") }
+  { name: "ベース1", path: require("./bases/BG001.jpg") },
+  { name: "ベース2", path: require("./bases/BL001.jpg") },
+  { name: "ベース3", path: require("./bases/CT001.jpg") },
+  { name: "ベース4", path: require("./bases/FW001.jpg") },
+  { name: "ベース5", path: require("./bases/HW001.jpg") },
+  { name: "ベース6", path: require("./bases/JK001.jpg") },
+  { name: "ベース7", path: require("./bases/KN001.jpg") },
+  { name: "ベース8", path: require("./bases/MF001.jpg") }
 ]
 
 export { marklist, baselist }
