@@ -107,7 +107,10 @@ class FabricCanvas extends Component {
   }
 
   resetCanvas = () => {
-    this.the_canvas.clear()
+    // All reset
+    // this.the_canvas.clear()
+    // Reset everything image except the background image
+    this.the_canvas.remove(...this.the_canvas.getObjects().concat())
     // Trigger Event
     this.setOption()
   }
