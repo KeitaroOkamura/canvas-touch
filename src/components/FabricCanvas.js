@@ -63,18 +63,27 @@ class FabricCanvas extends Component {
   saveToCanvas = () => {
     const link = document.createElement("a")
     // TODO: resize
-    // this.the_canvas.width = this.props.size.width
-    // this.the_canvas.height = this.props.size.height
-    let dataUrl = this.the_canvas.toDataURL("image/jpeg")
-    if (this.state.trim) {
-      const base64 = this.the_canvas.toDataURL("image/jpeg", 0.1),
-        blob = this.base64toBlob(base64),
-        url = window.URL || window.webkitURL
-      dataUrl = url.createObjectURL(blob)
-    }
-    link.href = dataUrl
-    link.download = "new_create_image.jpg"
-    link.click()
+    let beforeDataUrl = this.the_canvas.toDataURL("image/jpeg")
+    this.props.loadImage(beforeDataUrl, "")
+    .then(res => {
+      const imgInstance = new fabric.Image(res, {
+        width: this.props.size.width,
+        height: this.props.size.height
+      })
+      let dataUrl = imgInstance.toDataURL("image/jpeg")
+      if (this.state.trim) {
+        const base64 = this.the_canvas.toDataURL("image/jpeg", 0.1),
+          blob = this.base64toBlob(base64),
+          url = window.URL || window.webkitURL
+        dataUrl = url.createObjectURL(blob)
+      }
+      link.href = dataUrl
+      link.download = "new_create_image.jpg"
+      link.click()
+    })
+    .catch(e => {
+      console.error("save error", e)
+    })
   }
 
   previousCanvas = () => {

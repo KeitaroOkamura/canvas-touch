@@ -40,8 +40,8 @@ class IndexPage extends Component {
   }
 
   addToCanvas = (imgElement, property_type, z_Index) => {
-    const width = property_type === "bases" ? 600 : 48,
-      height = property_type === "bases" ? 380 : 48
+    const width = property_type === "bases" ? 600 : 57,
+      height = property_type === "bases" ? 380 : 57
     const imgInstance = new fabric.Image(imgElement, {
       width: width,
       height: height,
@@ -96,6 +96,41 @@ class IndexPage extends Component {
     this.setState({ size: size })
   }
 
+  loadImage(src, type) {
+    return new Promise((resolve, reject) => {
+      const canvas = document.createElement("canvas")
+      const ctx = canvas.getContext("2d")
+      const img = new Image()
+      img.onload = () => {
+        // Base Image Resize
+        if (type === "bases") {
+          const dstWidth = 600
+          const dstHeight = 380
+          canvas.width = dstWidth
+          canvas.height = dstHeight
+          ctx.drawImage(
+            img,
+            0,
+            0,
+            img.width,
+            img.height,
+            0,
+            0,
+            dstWidth,
+            dstHeight
+          )
+          // Infinite loop cancel
+          this.setSize({ width: img.width, height: img.height })
+          img.onload = null
+          img.src = canvas.toDataURL("image/png")
+        }
+        resolve(img)
+      }
+      img.onerror = e => reject(e)
+      img.src = src
+    })
+  }
+
   render() {
     return (
       <Layout>
@@ -109,7 +144,7 @@ class IndexPage extends Component {
               label="ベース選択"
               zIndex={-9999}
               addToCanvas={this.addToCanvas}
-              setSize={this.setSize.bind(this)}
+              loadImage={this.loadImage.bind(this)}
               disabled={false}
               xs={6}
               md={4}
@@ -122,7 +157,7 @@ class IndexPage extends Component {
               zIndex={0}
               addToCanvas={this.addToCanvas}
               disabled={this.state.isDisabled}
-              setSize={this.setSize.bind(this)}
+              loadImage={this.loadImage.bind(this)}
               xs={6}
               md={4}
             />
@@ -135,6 +170,7 @@ class IndexPage extends Component {
               available={this.state.isDisabled}
               triggerEvent={this.triggerEvent}
               size={this.state.size}
+              loadImage={this.loadImage.bind(this)}
             />
           </Col>
         </div>
