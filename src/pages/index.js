@@ -40,8 +40,8 @@ class IndexPage extends Component {
   }
 
   addToCanvas = (imgElement, property_type, z_Index) => {
-    const width = property_type === "bases" ? 600 : 57,
-      height = property_type === "bases" ? 380 : 57
+    const width = property_type === "bases" ? 600 : 25,
+      height = property_type === "bases" ? 380 : 25
     const imgInstance = new fabric.Image(imgElement, {
       width: width,
       height: height,
