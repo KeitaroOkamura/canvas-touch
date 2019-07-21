@@ -99,7 +99,7 @@ class FabricCanvas extends Component {
 
     this.the_canvas.remove(to_remove)
     // Trigger Event
-    this.setOption()
+    this.setOption(true)
     // Add Image Flg Changed
     this.setState({ add: true })
     // Back Button Status Changed
