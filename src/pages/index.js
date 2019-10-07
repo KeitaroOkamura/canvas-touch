@@ -1,11 +1,10 @@
 import React, { Component } from "react"
-import { Col } from "react-bootstrap"
+import { Col, Form } from "react-bootstrap"
 import { fabric } from "fabric"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import FabricCanvas from "../components/FabricCanvas"
-import SelectImage from "../components/SelectImage"
 import { marklist, baselist } from "../images/templates/templatelist"
 
 class IndexPage extends Component {
@@ -36,6 +35,22 @@ class IndexPage extends Component {
       })
       .catch(e => {
         console.error("create mark option error", e)
+      })
+
+    // global
+    window.localAddToCanvas = (src, type) => {
+      this.localAddToCanvas(src, type)
+    }
+  }
+
+  localAddToCanvas = (value, type = "bases") => {
+    this.loadImage(value, type)
+      .then(res => {
+        const zIndex = type === "bases" ? -9999 : null
+        this.addToCanvas(res, type, zIndex)
+      })
+      .catch(e => {
+        console.error("onload error", e)
       })
   }
 
@@ -137,30 +152,14 @@ class IndexPage extends Component {
         <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
         <div className="row">
           <Col md={4}>
-            <SelectImage
-              options={this.state.baseOptions}
-              property_type="bases"
-              controlId="base"
-              label="ベース選択"
-              zIndex={-9999}
-              addToCanvas={this.addToCanvas}
-              loadImage={this.loadImage.bind(this)}
-              disabled={false}
-              xs={6}
-              md={4}
-            />
-            <SelectImage
-              options={this.state.markOptions}
-              property_type="marks"
-              controlId="mark"
-              label="マーク選択"
-              zIndex={0}
-              addToCanvas={this.addToCanvas}
-              disabled={this.state.isDisabled}
-              loadImage={this.loadImage.bind(this)}
-              xs={6}
-              md={4}
-            />
+            <Form.Group controlId="base">
+              <Form.Label>ベース選択</Form.Label>
+              <Form.Control as="select">{this.state.baseOptions}</Form.Control>
+            </Form.Group>
+            <Form.Group controlId="mark">
+              <Form.Label>マーク選択</Form.Label>
+              <Form.Control as="select">{this.state.markOptions}</Form.Control>
+            </Form.Group>
           </Col>
 
           <Col md={8}>
