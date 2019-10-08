@@ -31,6 +31,11 @@ class FabricCanvas extends Component {
 
     // Init Status
     this.setState({ isDisabled: true })
+
+    // global
+    window.saveToCanvas = () => {
+      this.saveToCanvas()
+    }
   }
 
   componentWillReceiveProps = newprops => {
@@ -60,29 +65,26 @@ class FabricCanvas extends Component {
     }
   }
 
-  saveToCanvas = () => {
-    const link = document.createElement("a")
+  saveToCanvas() {
     // TODO: resize
-    let beforeDataUrl = this.the_canvas.toDataURL("image/jpeg")
-    this.props.loadImage(beforeDataUrl, "")
-    .then(res => {
-      const imgInstance = new fabric.Image(res, {
-        width: this.props.size.width,
-        height: this.props.size.height
-      })
-      let dataUrl = imgInstance.toDataURL("image/jpeg")
-      if (this.state.trim) {
+    return new Promise((resolve, reject) => {
+      let beforeDataUrl = this.the_canvas.toDataURL("image/jpeg")
+      this.props.loadImage(beforeDataUrl, "")
+      .then(res => {
+        const imgInstance = new fabric.Image(res, {
+          width: this.props.size.width,
+          height: this.props.size.height
+        })
+        let dataUrl = imgInstance.toDataURL("image/jpeg")
         const base64 = this.the_canvas.toDataURL("image/jpeg", 0.1),
           blob = this.base64toBlob(base64),
           url = window.URL || window.webkitURL
         dataUrl = url.createObjectURL(blob)
-      }
-      link.href = dataUrl
-      link.download = "new_create_image.jpg"
-      link.click()
-    })
-    .catch(e => {
-      console.error("save error", e)
+        resolve(dataUrl)
+      })
+      .catch(e => {
+        console.error("save error", e)
+      })
     })
   }
 
@@ -217,7 +219,7 @@ class FabricCanvas extends Component {
             marginTop: `15px`,
           }}
         >
-          <Button variant="info" onClick={this.saveToCanvas} size="lg">
+          <Button id="download" variant="info" size="lg">
             ダウンロード
           </Button>
           <Button
