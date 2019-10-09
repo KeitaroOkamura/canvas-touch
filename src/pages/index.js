@@ -43,7 +43,8 @@ class IndexPage extends Component {
     }
   }
 
-  localAddToCanvas = (value, type = "bases") => {
+  localAddToCanvas = (e, type = "bases") => {
+    const value = e.target.value
     this.loadImage(value, type)
       .then(res => {
         const zIndex = type === "bases" ? -9999 : null
