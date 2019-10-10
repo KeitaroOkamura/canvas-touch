@@ -6,7 +6,8 @@ export default class SelectImage extends Component {
     const index = e.target.selectedIndex,
       value = e.target.value,
       label = e.target.options[index].text
-    this.props.loadImage(value, this.props.property_type)
+    this.props
+      .loadImage(value, this.props.property_type)
       .then(res => {
         const type =
             this.props.property_type === "bases"

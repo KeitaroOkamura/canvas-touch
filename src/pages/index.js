@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Col, Form } from "react-bootstrap"
+import { Col } from "react-bootstrap"
 import { fabric } from "fabric"
 
 import Layout from "../components/layout"
@@ -152,17 +152,6 @@ class IndexPage extends Component {
       <Layout>
         <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
         <div className="row">
-          <Col md={4}>
-            <Form.Group controlId="base">
-              <Form.Label>ベース選択</Form.Label>
-              <Form.Control as="select">{this.state.baseOptions}</Form.Control>
-            </Form.Group>
-            <Form.Group controlId="mark">
-              <Form.Label>マーク選択</Form.Label>
-              <Form.Control as="select">{this.state.markOptions}</Form.Control>
-            </Form.Group>
-          </Col>
-
           <Col md={8}>
             <FabricCanvas
               activeProperty={this.state.activeProperty}

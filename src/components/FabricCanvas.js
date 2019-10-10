@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import { fabric } from "fabric"
-import { ButtonToolbar, Button, Form } from "react-bootstrap"
+// import { ButtonToolbar, Button, Form } from "react-bootstrap"
 import { marklist } from "../images/templates/templatelist"
 
 class FabricCanvas extends Component {
@@ -34,7 +34,7 @@ class FabricCanvas extends Component {
 
     // global
     window.saveToCanvas = () => {
-      this.saveToCanvas()
+      return this.saveToCanvas()
     }
   }
 
@@ -66,26 +66,33 @@ class FabricCanvas extends Component {
   }
 
   saveToCanvas() {
-    // TODO: resize
-    return new Promise((resolve, reject) => {
-      let beforeDataUrl = this.the_canvas.toDataURL("image/jpeg")
-      this.props.loadImage(beforeDataUrl, "")
-      .then(res => {
-        const imgInstance = new fabric.Image(res, {
-          width: this.props.size.width,
-          height: this.props.size.height
-        })
-        let dataUrl = imgInstance.toDataURL("image/jpeg")
-        const base64 = this.the_canvas.toDataURL("image/jpeg", 0.1),
-          blob = this.base64toBlob(base64),
-          url = window.URL || window.webkitURL
-        dataUrl = url.createObjectURL(blob)
-        resolve(dataUrl)
-      })
-      .catch(e => {
-        console.error("save error", e)
-      })
-    })
+    // Base64のまま送信
+    let beforeDataUrl = this.the_canvas.toDataURL("image/jpeg")
+    // minetypeは不要なため削除
+    return beforeDataUrl.replace(/^.*,/, "")
+
+    // return new Promise((resolve, reject) => {
+    //   // canvas から DataURL で画像を出力
+    //   let beforeDataUrl = this.the_canvas.toDataURL("image/jpeg")
+    //   this.props.loadImage(beforeDataUrl, "")
+    //   .then(res => {
+    //     // 画像生成
+    //     const imgInstance = new fabric.Image(res, {
+    //       width: this.props.size.width,
+    //       height: this.props.size.height
+    //     })
+    //     // 指定のサイズに変換
+    //     let dataUrl = imgInstance.toDataURL("image/jpeg")
+    //     const base64 = this.the_canvas.toDataURL("image/jpeg", 0.1),
+    //       blob = this.base64toBlob(base64), // blob変換
+    //       dataUrl = url.createObjectURL(blob) // blobを参照するための一時的なURLを作成（ダウンロード用）
+    //     console.log(blob)
+    //     resolve(dataUrl)
+    //   })
+    //   .catch(e => {
+    //     console.error("save error", e)
+    //   })
+    // })
   }
 
   previousCanvas = () => {
@@ -211,39 +218,6 @@ class FabricCanvas extends Component {
     return (
       <div className="main-canvas-container">
         <canvas id="main-canvas" />
-        <Form.Group>
-          <Form.Check type="checkbox" onClick={this.setTrim} label="blob変換" />
-        </Form.Group>
-        <ButtonToolbar
-          style={{
-            marginTop: `15px`,
-          }}
-        >
-          <Button id="download" variant="info" size="lg">
-            ダウンロード
-          </Button>
-          <Button
-            variant="light"
-            onClick={this.resetCanvas}
-            size="lg"
-            style={{
-              marginLeft: `15px`,
-            }}
-          >
-            クリア
-          </Button>
-          <Button
-            variant="light"
-            onClick={this.previousCanvas}
-            size="lg"
-            style={{
-              marginLeft: `15px`,
-            }}
-            disabled={this.state.isDisabled}
-          >
-            戻る
-          </Button>
-        </ButtonToolbar>
       </div>
     )
   }
