@@ -66,33 +66,31 @@ class FabricCanvas extends Component {
   }
 
   saveToCanvas() {
-    // Base64のまま送信
-    let beforeDataUrl = this.the_canvas.toDataURL("image/jpeg")
-    // minetypeは不要なため削除
-    return beforeDataUrl.replace(/^.*,/, "")
-
-    // return new Promise((resolve, reject) => {
-    //   // canvas から DataURL で画像を出力
-    //   let beforeDataUrl = this.the_canvas.toDataURL("image/jpeg")
-    //   this.props.loadImage(beforeDataUrl, "")
-    //   .then(res => {
-    //     // 画像生成
-    //     const imgInstance = new fabric.Image(res, {
-    //       width: this.props.size.width,
-    //       height: this.props.size.height
-    //     })
-    //     // 指定のサイズに変換
-    //     let dataUrl = imgInstance.toDataURL("image/jpeg")
-    //     const base64 = this.the_canvas.toDataURL("image/jpeg", 0.1),
-    //       blob = this.base64toBlob(base64), // blob変換
-    //       dataUrl = url.createObjectURL(blob) // blobを参照するための一時的なURLを作成（ダウンロード用）
-    //     console.log(blob)
-    //     resolve(dataUrl)
-    //   })
-    //   .catch(e => {
-    //     console.error("save error", e)
-    //   })
-    // })
+    return new Promise((resolve, reject) => {
+      // canvas から DataURL で画像を出力
+      let beforeDataUrl = this.the_canvas.toDataURL("image/jpeg")
+      this.props.loadImage(beforeDataUrl, "")
+      .then(res => {
+        // 画像生成
+        const imgInstance = new fabric.Image(res, {
+          width: this.props.size.width,
+          height: this.props.size.height
+        })
+        // 指定のサイズに変換
+        const beforeDataUrl = imgInstance.toDataURL("image/jpeg", 0.1)
+        // minetypeは不要なため削除
+        const base64 = beforeDataUrl.replace(/^.*,/, "")
+        // Base64のまま送信
+        resolve(base64)
+        // TODO: 削除
+          // blob = this.base64toBlob(base64), // blob変換
+          // dataUrl = url.createObjectURL(blob) // blobを参照するための一時的なURLを作成（ダウンロード用）
+      })
+      .catch(e => {
+        console.error("save error", e)
+        reject(e)
+      })
+    })
   }
 
   previousCanvas = () => {
