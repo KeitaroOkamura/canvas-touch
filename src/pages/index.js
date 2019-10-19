@@ -48,20 +48,21 @@ class IndexPage extends Component {
     this.loadImage(value, type)
       .then(res => {
         const zIndex = type === "bases" ? -9999 : null
-        this.addToCanvas(res, type, zIndex)
+        this.addToCanvas(res, type, zIndex, value)
       })
       .catch(e => {
         console.error("onload error", e)
       })
   }
 
-  addToCanvas = (imgElement, property_type, z_Index) => {
+  addToCanvas = (imgElement, property_type, z_Index, value) => {
     const width = property_type === "bases" ? 600 : 25,
       height = property_type === "bases" ? 380 : 25
     const imgInstance = new fabric.Image(imgElement, {
       width: width,
       height: height,
       the_type: property_type,
+      value: value
     })
 
     this.setState({ activeProperty: imgInstance })
@@ -90,7 +91,10 @@ class IndexPage extends Component {
           {item.name}
         </option>
       ))
-      this.setState({ isDisabled: marklist.length === disableList.length })
+      const isDisabled = marklist.length === disableList.length
+      const mark = document.getElementById("mark")
+      mark.disabled = isDisabled
+      this.setState({ isDisabled: isDisabled })
       this.setState({ markOptions: options })
       resolve()
     })

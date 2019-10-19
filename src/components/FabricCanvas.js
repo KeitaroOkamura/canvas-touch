@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 import { fabric } from "fabric"
 // import { ButtonToolbar, Button, Form } from "react-bootstrap"
-import { marklist } from "../images/templates/templatelist"
 
 class FabricCanvas extends Component {
   constructor(props) {
@@ -179,9 +178,24 @@ class FabricCanvas extends Component {
   setOption = (changed = false) => {
     const disableList = []
     let result = []
+    // マーク一覧取得
+    const mark = document.querySelector("#mark")
+    let marklist = []
+    for (let i = 0; i < mark.options.length; i++) {
+      marklist.push({
+        name: mark.options[i].text,
+        path: mark.options[i].value
+      })
+    }
+
+    // エラー回避
+    if(!marklist){
+      return true
+    }
+
     for (let key in marklist) {
       result = this.the_canvas.getObjects().filter(x => {
-        return x.the_type === marklist[key].name
+        return x.value === marklist[key].path
       })
       if (result.length > 1) {
         disableList.push(marklist[key].name)
@@ -191,7 +205,7 @@ class FabricCanvas extends Component {
       .createMarkOptions(marklist, disableList)
       .then(res => {
         if (changed) {
-          this.resetMarkSelect(disableList)
+          this.resetMarkSelect(marklist, disableList)
         }
       })
       .catch(e => {
@@ -199,7 +213,7 @@ class FabricCanvas extends Component {
       })
   }
 
-  resetMarkSelect = (disableList = []) => {
+  resetMarkSelect = (marklist, disableList = []) => {
     const mark = document.getElementById("mark")
     if (disableList.length) {
       let defaultValue = 0
