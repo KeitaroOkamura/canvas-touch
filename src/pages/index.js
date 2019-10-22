@@ -62,7 +62,7 @@ class IndexPage extends Component {
       width: width,
       height: height,
       the_type: property_type,
-      value: value
+      value: value,
     })
 
     this.setState({ activeProperty: imgInstance })
@@ -82,20 +82,14 @@ class IndexPage extends Component {
 
   createMarkOptions(results, disableList) {
     return new Promise((resolve, reject) => {
-      let options = results.map((item, index) => (
-        <option
-          key={item.name}
-          value={item.path}
-          disabled={disableList.indexOf(item.name) >= 0}
-        >
-          {item.name}
-        </option>
-      ))
-      const isDisabled = marklist.length === disableList.length
       const mark = document.getElementById("mark")
+      for (let i = 0; i < mark.options.length; i++) {
+        mark.options[i].disabled =
+          disableList.indexOf(mark.options[i].text) >= 0
+      }
+      const isDisabled = results.length === disableList.length
       mark.disabled = isDisabled
       this.setState({ isDisabled: isDisabled })
-      this.setState({ markOptions: options })
       resolve()
     })
   }
